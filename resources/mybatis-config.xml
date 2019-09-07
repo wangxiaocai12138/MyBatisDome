@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1、引入database.properties配置文件-->
+    <properties resource="database.properties"/>
+
+    <!--log4j日志实现，注意节点顺序！！-->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+        <!--resultMap自动映射匹配，前提字段名与属性名一致-->
+        <!--自动映射级别：autoMappingBehavior-->
+                        <!--PARTIAL默认属性，自动匹配，NONE取消默认匹配-->
+        <!--<setting name="autoMappingBehavior" value="NONE"/>-->
+    </settings>
+    <!--配置mapper.xml中的resultType属性的别名-->
+    <typeAliases>
+        <!--1、给每个不同的pojo单独取别名-->
+        <!--<typeAlias type="pojo.User" alias="User"/>-->
+        <!--2、统一配置包名,在resultType中会自动为类加上前缀-->
+        <package name="pojo"/>
+    </typeAliases>
+
+    <!--2、配置mybatis运行环境，可以配置多套-->
+    <environments default="development"><!--指定默认使用那套环境-->
+        <environment id="development">
+            <!--事务管理,使用的是JDBC的事务管理-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--使用mybatis自带的数据源POOLED，也可以使用jndi-->
+            <dataSource type="POOLED">
+                <!--配置配置文件中相应的属性，由此获取相应的值-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+        <!--多套时id要唯一-->
+        <environment id="2">
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+    </environments>
+
+    <!--引入mapper文件-->
+    <mappers>
+        <mapper resource="dao/user/UserMapper.xml"/>
+        <mapper resource="dao/bill/BillMapper.xml"/>
+        <mapper resource="dao/provider/ProviderMapper.xml"/>
+    </mappers>
+
+</configuration>

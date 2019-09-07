@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+                    <!--mapper配置文件-->
+<mapper namespace="dao.user.UserMapper">
+    <!--查询用户表的记录数-->
+                        <!--返回的结果类型-->
+    <select id="count" resultType="int">
+        select count(1) as count from smbms_user
+    </select>
+
+    <!--查询用户列表-->
+    <select id="getUserList" resultType="User">
+        select * from smbms_user
+    </select>
+
+    <!--传参测试！根据用户名查询用户列表，模糊查询-->
+    <select id="getUserListByUserName" parameterType="string" resultType="User">
+                          /* CONCAT 在sql语句中作用为字符串拼接*/
+        select * from smbms_user 
+            where userName like CONCAT ('%',#{userName},'%')
+    </select>
+    <!--测试！ 多条件查询，以对象入参-->
+    <select id="getUserListByUserNameAndUserRole" parameterType="User" resultType="User">
+       <!--select * from smbms_user
+            where userName like CONCAT ('%',#{userName},'%')
+                  and userRole=#{userRole}-->
+        <!--多表动态sql-->
+        <!--select u.*,r.roleName from smbms_user u,smbms_role r
+            where u.userRole=r.id
+              <if test="userRole!=null">
+                  and userRole=#{userRole}
+              </if>
+              <if test="userName!=null and userName!=''">
+                  and userName like concat('%',#{userName},'%')
+              </if>-->
+        <!--使用where标签 单表动态sql-->
+        <!--select * from smbms_user
+            <where>
+                <if test="userRole!=null">
+                    and userRole=#{userRole}
+                </if>
+                <if test="userName!=null and userName!=''">
+                    and userName like concat('%',#{userName},'%')
+                </if>
+            </where>-->
+        <!--使用trim标签  单表动态sql -->
+        select * from smbms_user
+          <!-- 前缀添加           前缀忽略-->
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="userRole!=null">
+                and userRole=#{userRole}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and userName like concat('%',#{userName},'%')
+            </if>
+        </trim>
+    </select>
+    <!--测试，查询角色对应的用户，使用resultMap(复杂关系（对象）)映射-->
+    
+    <resultMap id="userRoleResult" type="User">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode" />
+        <result property="userName" column="userName" />
+        <result property="userPassword" column="userPassword" />
+        <result property="gender" column="gender" />
+        <!-- ...... -->
+        <!--实现高级复用-->
+        <association property="role" javaType="Role" resultMap="roleResult">
+            <!--<id property="id" column="r_id" />
+            <result property="roleCode" column="roleCode"/>
+            <result property="roleName" column="roleName" />-->
+        </association>
+    </resultMap>
+    <!--实现复用-->
+    <resultMap id="roleResult" type="Role">
+        <id property="id" column="r_id" />
+        <result property="roleCode" column="roleCode"/>
+        <result property="roleName" column="roleName" />
+    </resultMap>
+    <select id="getUserListByRoleId" parameterType="Integer"
+            resultMap="userRoleResult">
+        select  u.*,r.id as r_id,r.roleName,r.roleCode
+            from smbms_user u,smbms_role r
+              where u.userRole=#{userRole} and u.userRole=r.id
+    </select>
+   <!-- 根据用户信息查询用户地址列表  一对多（集合映射）-->
+    <select id="getAddressListByUserId" resultMap="userAddressResult"
+            parameterType="integer">
+        select  u.*,a.id as a_id,a.contact,a.addressDesc,a.tel,a.postCode
+            from smbms_user u,smbms_address a
+              where u.id=a.userId and u.id=#{id}
+
+    </select>
+    <resultMap id="userAddressResult" type="User">
+        <id property="id" column="id" />
+        <result property="userCode" column="userCode" />
+        <result property="userName" column="userName" />
+        <!--使用集合映射所需配置项，            集合包含的类型-->
+        <collection property="addressList" ofType="Address">
+            <!--如何提高映射可重用性？（定义在resultMap中去）-->
+            <id property="id" column="a_id" />
+            <result property="contact" column="contact" />
+            <result property="addressDesc" column="addressDesc" />
+            <result property="tel" column="tel" />
+            <result property="postCode" column="postCode" />
+        </collection>
+    </resultMap>
+
+    <select id="getUserByRoleId_foreach_array" resultType="User">
+        select * from smbms_user where userRole in
+                    <!--必须指定参数传入类型（数组array，集合list，键值对map的key）-->
+            <foreach collection="array" item="roleIds" open="(" separator="," close=")">
+                #{roleIds}
+            </foreach>
+            <!--多参时传参封装成map集合传参！ item是别名 其它的一致-->
+    </select>
+
+    <!--用户登录-->
+    <select id="loginByCodeAndPwd" resultType="User" parameterType="User">
+        select * from smbms_user
+            where userCode=#{userCode}
+                and userPassWord=#{userPassword}
+    </select>
+
+</mapper>

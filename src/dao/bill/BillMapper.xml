@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.bill.BillMapper">
+    <!--查询所有订单-->
+    <!--<select id="qureBillAll" resultType="Bill">
+        select b.*,p.proName as providerName
+            from smbms_bill b,smbms_provider p
+            where b.providerId=p.id
+    </select>-->
+    <!--第二种查询所有订单，使用resultMap映射-->
+    <resultMap id="BillList" type="Bill">
+        <id property="id" column="id"/>
+        <!--如果字段名与字段值一致，可以省略，只写不同字段即可-->
+        <!--<result property="billCode" column="billCode" />
+        <result property="productName" column="productName" />
+        <result property="productDesc" column="productDesc" />
+        <result property="productUnit" column="productUnit" />
+        <result property="productCount" column="productCount" />
+        <result property="totalPrice" column="totalPrice" />
+        <result property="isPayment" column="isPayment" />
+        <result property="providerId" column="providerId" />
+        <result property="createdBy" column="createdBy" />
+        <result property="creationDate" column="creationDate" />
+        <result property="modifyBy" column="modifyBy" />
+        <result property="modifyDate" column="modifyDate" />-->
+        <!--            实体类中字段名         数据库中字段名-->
+        <result property="providerName" column="proName" />
+    </resultMap>
+    <!--resultMap可以实现自由灵活显示关心字段（需要更改自动映射级别），和resultType不能共存-->
+    <select id="qureBillAll" resultMap="BillList">
+        select b.*,p.proName
+            from smbms_bill b,smbms_provider p
+            where b.providerId=p.id
+    </select>
+    <!--添加-->
+    <insert id="addBill" parameterType="Bill" >
+       INSERT INTO smbms_bill(`billCode`,`productName`,`productDesc`,`productUnit`,`productCount`,`totalPrice`,`isPayment`,`creationDate`,`modifyBy`,`modifyDate`,`providerId`)
+          VALUES(#{billCode},#{productName},#{productDesc},#{productUnit},#{productCount},#{totalPrice},#{isPayment},#{creationDate},#{modifyBy},#{modifyDate},#{providerId})
+    </insert>
+    <!--删除-->
+    <delete id="delBillById" parameterType="int">
+        delete from smbms_bill where id=#{id}
+    </delete>
+    <!--查看-->
+    <select id="qureBillById" parameterType="int" resultType="Bill">
+        select b.*,p.proName as providerName
+            from smbms_bill b,smbms_provider p
+            where b.providerId=p.id and b.id=#{id}
+    </select>
+    <!--修改（动态sql set标签）-->
+    <update id="modifyBillById" parameterType="Bill" >
+        UPDATE smbms_bill
+            <set>
+                <if test="billCode!=null">`billCode`=#{billCode},</if>
+                <if test="productName!=null">`productName`=#{productName},</if>
+                <if test="productUnit!=null">`productUnit`=#{productUnit},</if>
+                <if test="productCount!=null">`productCount`=#{productCount},</if>
+                <if test="totalPrice!=null">`totalPrice`=#{totalPrice},</if>
+                <if test="isPayment!=null">`isPayment`=#{isPayment},</if>
+                <if test="modifyBy!=null">`modifyBy`=#{modifyBy},</if>
+                <if test="modifyDate!=null">`modifyDate`=#{modifyDate},</if>
+                <if test="providerId!=null">`providerId`=#{providerId},</if>
+            </set>
+            <where>
+                <if test="id!=null">id=#{id}</if>
+            </where>
+    </update>
+</mapper>
