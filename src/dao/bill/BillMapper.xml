@@ -33,6 +33,9 @@
         select b.*,p.proName
             from smbms_bill b,smbms_provider p
             where b.providerId=p.id
+            <if test="productName != null"> and productName like concat('%',#{productName},'%')</if>
+            <if test="providerId != 0"> and  b.providerId = #{providerId}</if>
+            <if test="isPayment != 0"> and  isPayment = #{isPayment}</if>
     </select>
     <!--添加-->
     <insert id="addBill" parameterType="Bill" >

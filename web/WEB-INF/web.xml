@@ -22,12 +22,21 @@
   <servlet-mapping>
       <servlet-name>billServlet</servlet-name>
       <url-pattern>/jsp/bill.do</url-pattern>
-  </servlet-mapping>  
- 	
+  </servlet-mapping>
 
- 	
-  	
-  <!-- 字符编码统一配置 -->
+    <servlet>
+        <servlet-name>ProviderServlet</servlet-name>
+        <servlet-class>servlet.ProviderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProviderServlet</servlet-name>
+        <url-pattern>/jsp/provider.do</url-pattern>
+    </servlet-mapping>
+
+
+
+
+    <!-- 字符编码统一配置 -->
   <filter>
   	<filter-name>CharacterEncoding</filter-name>
   	<filter-class>filter.CharacterEncoding</filter-class>

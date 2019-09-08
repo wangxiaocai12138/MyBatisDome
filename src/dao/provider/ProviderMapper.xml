@@ -13,7 +13,42 @@
     <!--创建完成后由查询语句调用即可-->
     
     
-    <select id="qureProviderAll" resultType="Provider" parameterType="Provider">
+    <select id="qureProviderAll" resultType="Provider">
         select * from smbms_provider
+          <where >
+              <if test="proCode != null"> and proCode like concat('%',#{proCode},'%')</if>
+              <if test="proName != null"> and proName like concat('%',#{proName},'%')</if>
+          </where>
     </select>
+
+    <insert id="addProvider" parameterType="Provider">
+        INSERT INTO smbms_provider
+          <trim prefix="(" suffixOverrides="," suffix=")">
+              <if test="proCode != null">proCode,</if>
+              <if test="proName != null">proName,</if>
+              <if test="proDesc != null">proDesc,</if>
+              <if test="proContact != null">proContact,</if>
+              <if test="proPhone != null">proPhone,</if>
+              <if test="proAddress != null">proAddress,</if>
+              <if test="proFax != null">proFax,</if>
+              <if test="createdBy != 0">createdBy,</if>
+              <if test="creationDate != null">creationDate,</if>
+              <if test="modifyBy != null">modifyBy,</if>
+              <if test="modifyDate != null">modifyDate,</if>
+          </trim>
+        values
+            <trim prefix="(" suffixOverrides="," suffix=")">
+                <if test="proCode != null">#{proCode},</if>
+                <if test="proName != null">#{proName},</if>
+                <if test="proDesc != null">#{proDesc},</if>
+                <if test="proContact != null">#{proContact},</if>
+                <if test="proPhone != null">#{proPhone},</if>
+                <if test="proAddress != null">#{proAddress},</if>
+                <if test="proFax != null">#{proFax},</if>
+                <if test="createdBy != 0">#{createdBy},</if>
+                <if test="creationDate != null">#{creationDate},</if>
+                <if test="modifyBy != null">#{modifyBy},</if>
+                <if test="modifyDate != null">#{modifyDate#},</if>
+            </trim>
+    </insert>
 </mapper>

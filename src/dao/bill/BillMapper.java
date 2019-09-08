@@ -7,7 +7,6 @@ import pojo.Bill;
 import java.util.List;
 
 public interface BillMapper {
-    List<Bill> qureBillAll();
 
     int addBill(Bill bill);
                     /*参数注解！，多参时一定要添加注解*/
@@ -16,4 +15,8 @@ public interface BillMapper {
     Bill qureBillById(@Param("id") Integer id);
 
     int modifyBillById(Bill bill);
+
+    List<Bill> qureBillAll(@Param("productName") String productName
+                        , @Param("providerId") Integer providerId
+                        ,@Param("isPayment") Integer isPayment);
 }

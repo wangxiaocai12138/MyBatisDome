@@ -10,8 +10,14 @@ import java.util.List;
 
 public class ProviderServiceImpl implements ProviderService {
     SqlSession sqlSession= MyBatisUtils.createSqlSession();
+
     @Override
-    public List<Provider> qureProviderAll() {
-        return sqlSession.getMapper(ProviderMapper.class).qureProviderAll();
+    public List<Provider> qureProviderAll(String queryProCode, String queryProName) {
+        return sqlSession.getMapper(ProviderMapper.class).qureProviderAll(queryProCode,queryProName);
+    }
+
+    @Override
+    public int addProvider(Provider provider) {
+        return sqlSession.getMapper(ProviderMapper.class).addProvider(provider);
     }
 }

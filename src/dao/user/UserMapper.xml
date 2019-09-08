@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
 
     <select id="getUserByRoleId_foreach_array" resultType="User">
         select * from smbms_user where userRole in
-                    <!--必须指定参数传入类型（数组array，集合list，键值对map的key）-->
+                    <!--必须指定参数传入类型（数组array，集合list，键值对map的 key）-->
             <foreach collection="array" item="roleIds" open="(" separator="," close=")">
                 #{roleIds}
             </foreach>

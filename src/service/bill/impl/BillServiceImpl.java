@@ -12,11 +12,6 @@ public class BillServiceImpl implements BillService {
    SqlSession sqlSession= MyBatisUtils.createSqlSession();
 
     @Override
-    public List<Bill> qureBillAll() {
-        return sqlSession.getMapper(BillMapper.class).qureBillAll();
-    }
-
-    @Override
     public int addBill(Bill bill) {
         return sqlSession.getMapper(BillMapper.class).addBill(bill);
     }
@@ -34,5 +29,10 @@ public class BillServiceImpl implements BillService {
     @Override
     public int modifyBillById(Bill bill) {
         return sqlSession.getMapper(BillMapper.class).modifyBillById(bill);
+    }
+
+    @Override
+    public List<Bill> qureBillAll(String productName, Integer providerId, Integer isPayment) {
+        return sqlSession.getMapper(BillMapper.class).qureBillAll(productName,providerId,isPayment);
     }
 }

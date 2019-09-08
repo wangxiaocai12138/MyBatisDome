@@ -10,7 +10,7 @@
        </div>
        <div class="search">
        <form method="get" action="${pageContext.request.contextPath }/jsp/bill.do">
-			<input name="method" value="querys" class="input-text" type="hidden">
+			<input name="method" value="query" class="input-text" type="hidden">
 			<span>商品名称：</span>
 			<input name="queryProductName" type="text" value="${queryProductName }">
 			 

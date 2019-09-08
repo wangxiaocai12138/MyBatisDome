@@ -39,14 +39,14 @@
                 </div>
                 <div>
                     <label for="proFax">传真：</label>
-                    <input type="text" name="proFax" id="proFax" value=""> 
+                    <input type="text" name="proFax" id="proFax" value="">
                 </div>
                 <div>
                     <label for="proDesc">描述：</label>
                     <input type="text" name="proDesc" id="proDesc" value=""> 
                 </div>
                 <div class="providerAddBtn">
-                    <input type="button" name="add" id="add" value="保存">
+                    <input type="submit" name="add" id="add" value="保存">
 					<input type="button" id="back" name="back" value="返回" >
                 </div>
             </form>

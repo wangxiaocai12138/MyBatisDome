@@ -5,7 +5,6 @@ import pojo.Bill;
 import java.util.List;
 
 public interface BillService {
-    List<Bill> qureBillAll();
 
     int addBill(Bill bill);
 
@@ -14,4 +13,6 @@ public interface BillService {
     Bill qureBillById(Integer id);
 
     int modifyBillById(Bill bill);
+
+    List<Bill> qureBillAll(String productName, Integer providerId, Integer isPayment);
 }

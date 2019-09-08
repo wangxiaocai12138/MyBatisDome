@@ -176,7 +176,7 @@ public class BillServlet extends HttpServlet {
 
     /*添加下拉框ajax*/
     private void getproviderlist(HttpServletRequest request, HttpServletResponse response) {
-        List<Provider> providerList=providerService.qureProviderAll();
+        List<Provider> providerList=providerService.qureProviderAll(null,null);
         try {
             PrintWriter out=response.getWriter();
             out.print(JSONArray.toJSONString(providerList));
@@ -194,8 +194,21 @@ public class BillServlet extends HttpServlet {
     //查询所有订单
     private void query(HttpServletRequest request,
                         HttpServletResponse response) throws ServletException, IOException {
-        List<Bill> list=billService.qureBillAll();
-        List<Provider> providerList=providerService.qureProviderAll();
+        String productName=request.getParameter("queryProductName");
+        String p=request.getParameter("queryProviderId");
+        String i=request.getParameter("queryIsPayment");
+        Integer providerId= 0;
+        Integer isPayment= 0;
+        if(p!=null){
+            providerId= Integer.valueOf(p);
+        }
+        if(i!=null){
+            isPayment=Integer.valueOf(i);
+        }
+
+
+        List<Bill> list=billService.qureBillAll(productName,providerId,isPayment);
+        List<Provider> providerList=providerService.qureProviderAll(null,null);
         request.setAttribute("providerList",providerList);
         request.setAttribute("billList",list);
         request.getRequestDispatcher("billlist.jsp").forward(request,response);
