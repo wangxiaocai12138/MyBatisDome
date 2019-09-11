@@ -10,7 +10,7 @@
     </select>
 
     <insert id="addCountByDate" parameterType="Count">
-         INSERT INTO smbms_bill(`date`,count,sumCount)
+         INSERT INTO smbms_count(`date`,count,sumCount)
             values (#{date},#{count},#{sumCount})
     </insert>
 

@@ -8,6 +8,8 @@ public class Count {
     private Date date;
     private int count;
     private int sumCount;
+    public Count(){}
+
     //添加
     public Count(Date date,int count,int sumCount){
         this.date=date;

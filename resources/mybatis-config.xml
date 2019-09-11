@@ -48,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <mapper resource="dao/user/UserMapper.xml"/>
         <mapper resource="dao/bill/BillMapper.xml"/>
         <mapper resource="dao/provider/ProviderMapper.xml"/>
+        <mapper resource="dao/count/CountMapper.xml"/>
     </mappers>
 
 </configuration>
