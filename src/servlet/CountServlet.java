@@ -37,17 +37,17 @@ public class CountServlet extends HttpServlet {
             if(!sdf.format(count.getDate()).equals(sdf.format(new Date()))){
                 Count newsCount=new Count(new Date(),1,count.getSumCount()+1);
                 countService.addCountByDate(newsCount);
-                map.put("sumCount",count.getSumCount()+10);
+                map.put("sumCount",count.getSumCount()+1);
             }else{
                 /*获取ip*/
                 InetAddress addIp=InetAddress.getLocalHost();
                 Object ip= request.getSession().getAttribute("ip");
-                if(ip!=null){
+                if(ip==null){
                     /*第一次入页面*/
                     request.getSession().setAttribute("ip",addIp.getHostAddress());
                     Count newsCount=new Count(count.getId(),count.getDate(),count.getCount()+1,count.getSumCount()+1);
                     int rows=countService.updateCountById(newsCount);
-                    map.put("sumCount",count.getSumCount()+100);
+                    map.put("sumCount",count.getSumCount()+1);
                 }else{
                     /*session 未过期时再次进入相关页面*/
                     map.put("sumCount",count.getSumCount());
