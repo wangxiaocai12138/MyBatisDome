@@ -19,6 +19,8 @@
             <h1>超市订单管理系统</h1>
         </header>
         <section class="loginCont">
+            <input type="hidden" id="path" name="path" value="${pageContext.request.contextPath }"/>
+            <count id="count"></count>
 	        <form class="loginForm" action="${pageContext.request.contextPath }/login.do"  name="actionForm" id="actionForm"  method="post" >
 				<div class="info">${error }</div>
 				<div class="inputbox">
@@ -38,4 +40,6 @@
         </section>
     </section>
 </body>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/count.js"></script>
 </html>

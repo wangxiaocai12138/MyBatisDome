@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.count.CountMapper">
+    <select id="getCountByDateDescOrLimitOne" resultType="Count">
+      SELECT * FROM smbms_count
+          ORDER BY `date` DESC
+            LIMIT 1
+    </select>
+
+    <insert id="addCountByDate" parameterType="Count">
+         INSERT INTO smbms_bill(`date`,count,sumCount)
+            values (#{date},#{count},#{sumCount})
+    </insert>
+
+    <update id="updateCountById" parameterType="Count">
+        update smbms_count set `date`=#{date},count=#{count},sumCount=#{sumCount}
+            where id=#{id}
+    </update>
+</mapper>
