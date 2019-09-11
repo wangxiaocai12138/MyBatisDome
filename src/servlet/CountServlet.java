@@ -45,7 +45,8 @@ public class CountServlet extends HttpServlet {
                 if(ip==null){
                     /*第一次入页面*/
                     request.getSession().setAttribute("ip",addIp.getHostAddress());
-                    Count newsCount=new Count(count.getId(),count.getDate(),count.getCount()+1,count.getSumCount()+1);
+                    Count newsCount=new Count(count.getId(),count.getDate(),count.getCount()+1,
+                            count.getSumCount()+1);
                     int rows=countService.updateCountById(newsCount);
                     map.put("sumCount",count.getSumCount()+1);
                 }else{
